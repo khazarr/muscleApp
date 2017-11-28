@@ -4,29 +4,20 @@
 <v-ons-page @click="onTap">
     <section class="margin16">
 
-
-        <v-ons-list>
-            <v-ons-list-header>
-                RR Timer
-            </v-ons-list-header>
-        </v-ons-list>
-        <v-ons-row>
-            <v-ons-col class="timer">00:00</v-ons-col>
-        </v-ons-row>
-        <v-ons-row>
             <v-ons-col>Current Excercise</v-ons-col>
         </v-ons-row>
         <v-ons-row>
             <v-ons-col>{{workoutSteps[currentStep]}}</v-ons-col>
         </v-ons-row>
 
-        <!-- description of current workout step -->
-
-
         <v-ons-row>
             <v-ons-col>Tap to start</v-ons-col>
         </v-ons-row>
     </section>
+    <v-ons-progress-bar :value="20"></v-ons-progress-bar>
+    <p>
+      <v-ons-progress-bar value="20"></v-ons-progress-bar>
+    </p>
 </v-ons-page>
 
 </template>
@@ -37,6 +28,10 @@ export default {
     data() {
         return {
           currentStep: 0,
+          startedTime: '',
+          currentTime: '',
+          totalWorkoutTime: '00:00',
+          totalWorkoutTimeout: null,
           workoutSteps: [
             'dynamic stretches',
             'bodyline drills'
@@ -46,6 +41,13 @@ export default {
     methods: {
       onTap () {
         this.currentStep++
+        // PRZEPISZ TO NA TIMEOUTY
+      },
+      toReadableTime(milisec) {
+        const minutes = Math.floor(milisec / 60000)
+        const seconds = ((milisec % 60000) /1000)
+        const outSeconds = seconds.toString().split('.')[0]
+        return (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + outSeconds
       }
     }
 };
@@ -55,7 +57,7 @@ export default {
 <style scoped>
 
 .timer {
-    font-size: 100px;
+    font-size: 80px;
     text-align: center;
 }
 .margin16 {

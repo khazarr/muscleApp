@@ -61,6 +61,12 @@ export default {
 
     workout: {
       state: {
+        description: {
+          streches: 'DYNAMIC STRETCHES - TO GET THE JOINTS NICE AND LOOSE',
+          bodyDrills: 'BODYLINE DRILLS - TO FIRE UP YOUR CORE AND REINFORCE PROPER POSITIONS.',
+          skillWork: 'SKILL WORK',
+          strengthWork: 'STRENGTH WORK'
+        },
         streches: [
           {
             name : 'Shoulder rolls',
@@ -111,7 +117,58 @@ export default {
           {
             name: 'Arch Hold',
             time: '10-60s'
+          }
+        ],
+        skillWork: [
+          {
+            name: 'Support practice',
+            reps: '2-3 min'
           },
+          {
+            name: 'Handstand progression',
+            reps: '5-10min'
+          }
+        ],
+        strengthWork: [
+          {
+            description: 'FIRST PAIR',
+            excercises: [
+              {
+                name: 'Pull-up progression',
+                reps: '3x5-8 '
+              },
+              {
+                name: 'Dip progression',
+                reps: '3x5-8 '
+              },
+            ]
+          },
+          {
+            description: 'SECOND PAIR',
+            excercises: [
+              {
+                name: 'L-sit progression',
+                reps: '3x10sec-30sec '
+              },
+              {
+                name: 'Squat/Deadlift',
+                reps: '3x5-8 '
+              },
+            ]
+          },
+          {
+            description: 'THIRD PAIR',
+            excercises: [
+              {
+                name: 'Push-up progression',
+                reps: '3x5-8 '
+              },
+              {
+                name: 'Row progression',
+                reps: '3x5-8 '
+              },
+            ]
+          }
         ]
       },
       getters: {
@@ -120,6 +177,15 @@ export default {
         },
         getBodyDrills (state) {
           return state.bodyDrills
+        },
+        getSkillWork (state) {
+          return state.skillWork
+        },
+        getStrengthWork (state) {
+          return state.strengthWork
+        },
+        getWorkoutDescriptions (state) {
+          return state.description
         }
       }
     }

@@ -3,9 +3,9 @@
 
 <v-ons-page>
     <section class="margin16">
-        <v-ons-list v-if="currentStep == 0">
+        <v-ons-list>
             <v-ons-list-header modifier="longdivider">
-              Dynamic Stretches to get the joints nice and loose <br />
+              {{description.streches}} <br />
             </v-ons-list-header>
             <v-ons-list-item
               modifier="longdivider"
@@ -20,9 +20,9 @@
             </v-ons-list-item>
         </v-ons-list>
 
-        <v-ons-list class="workout-list" v-if="currentStep == 0">
+        <v-ons-list class="workout-list">
             <v-ons-list-header modifier="longdivider">
-              Bodyline Drills to fire up your core and reinforce proper positions. <br />
+               {{description.bodyDrills}} <br />
             </v-ons-list-header>
             <v-ons-list-item
               modifier="longdivider"
@@ -36,6 +36,47 @@
               </div>
             </v-ons-list-item>
         </v-ons-list>
+
+        <v-ons-list class="workout-list">
+            <v-ons-list-header class="list-header" modifier="longdivider">
+               {{description.skillWork}} <br />
+            </v-ons-list-header>
+            <v-ons-list-item
+              modifier="longdivider"
+              v-for="excercise in skillWork"
+              :key="excercise.name">
+              <div class="center">
+                {{excercise.name}}
+              </div>
+              <div class="right">
+                {{excercise.reps}}
+              </div>
+            </v-ons-list-item>
+        </v-ons-list>
+
+        <v-ons-list class="workout-list">
+            <v-ons-list-header class="list-header" modifier="longdivider">
+               {{description.strengthWork}} <br />
+            </v-ons-list-header>
+            <v-ons-list
+              modifier="inset"
+              v-for="step in strengthWork"
+              :key="step.description"
+              >
+               <v-ons-list-header>{{step.description}}</v-ons-list-header>
+               <v-ons-list-item
+                modifier="longdivider"
+                v-for="excercise in step.excercises"
+                :key="excercise.name">
+                <div class="center">
+                  {{excercise.name}}
+                </div>
+                <div class="right">
+                  {{excercise.reps}}
+                </div>
+               </v-ons-list-item>
+             </v-ons-list>
+           </v-ons-list>
 
     </section>
 </v-ons-page>
@@ -65,11 +106,20 @@ export default {
       },
       bodyDrills () {
         return this.$store.getters.getBodyDrills
+      },
+      description () {
+        return this.$store.getters.getWorkoutDescriptions
+      },
+      skillWork () {
+        return this.$store.getters.getSkillWork
+      },
+      strengthWork () {
+        return this.$store.getters.getStrengthWork
       }
     },
     created () {
       console.log('haltko')
-      console.log(this.$store.getters.getStretches)
+      console.log(this.$store.getters.getWorkoutDescriptions['bodyDrills'])
     }
 };
 
@@ -89,5 +139,8 @@ export default {
 }
 .workout-list{
   margin-top: 10px;
+}
+.list-header{
+  border-bottom: 1px solid #eceff1;
 }
 </style>
