@@ -68,7 +68,6 @@ export default {
           // this.totalWorkoutStarted = !this.totalWorkoutStarted
         }
 
-        // PRZEPISZ TO NA TIMEOUTY
       },
       onBreakStart () {
         this.breakStarted = true
@@ -126,8 +125,10 @@ export default {
       breakTimeDisplayer () {
         this.breakTimeDisplay = (this.breakTimeMinutes < 10 ? '0' : '') + this.breakTimeMinutes + ':' + (this.breakTimeSeconds < 10 ? '0' : '') + this.breakTimeSeconds
       },
-      halkor () {
-        console.log('halkor')
+      secondsToMinAndSeconds (input) {
+        const min = Math.floor(input/60)
+        const sec = input % 60
+        return [min,sec]
       }
     }
 };

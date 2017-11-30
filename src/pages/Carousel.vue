@@ -9,7 +9,7 @@
         class="carousel-item"
         :style="{ backgroundColor: value }"
       >
-        <div class="color-tag">{{key}}</div>
+        <div class="color-tag">{{key}} <br /> HALKO TU</div>
       </v-ons-carousel-item>
     </v-ons-carousel>
 

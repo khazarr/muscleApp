@@ -20,11 +20,17 @@ import Buttons from './Buttons.vue';
 import Carousel from './Carousel.vue';
 import InfiniteScroll from './InfiniteScroll.vue';
 import Progress from './Progress.vue';
+import WorkoutSettings from './WorkoutSettings.vue';
 
 export default {
   data () {
     return {
       pages: [
+        {
+          component: WorkoutSettings,
+          label: 'Settings',
+          desc: 'Adjust parameters of workout.'
+        },
         {
           component: PullHook,
           label: 'Pull Hook',

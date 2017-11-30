@@ -15,6 +15,7 @@
     "onsenui": "~2.8.0",
     "vue": "^2.5.3",
     "vue-onsenui": "~2.4.0",
+    "vue2-timepicker": "^0.1.4",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

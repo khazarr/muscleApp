@@ -10,10 +10,11 @@ import VueOnsen from 'vue-onsenui'; // For UMD
 import storeLike from './store.js';
 import CustomToolbar from './partials/CustomToolbar.vue';
 import AppNavigator from './AppNavigator.vue';
+import VueTimepicker from 'vue2-timepicker'
 
 Vue.use(Vuex);
 Vue.use(VueOnsen);
-
+Vue.use(VueTimepicker)
 // Register components globally
 // Object.values(OnsenComponents).forEach(component => Vue.component(component.name, component)); // For ESM
 Vue.component('custom-toolbar', CustomToolbar); // Common toolbar
