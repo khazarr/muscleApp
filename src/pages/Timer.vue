@@ -18,8 +18,8 @@
         <v-ons-progress-bar :value="20"></v-ons-progress-bar>
         <v-ons-button modifier="large" class="button-margin" @click="onNextWorkoutStep">Next workout step</v-ons-button> -->
 
-        <div class="tap-to-start" v-if="!totalWorkoutStarted">
-          Tap to start workout
+        <div class="tap-to-start" v-if="firstTimeInteracting">
+          Tap anywhere to start
         </div>
 
 
@@ -60,6 +60,27 @@
           </div>
             <div class="right" v-html="totalWorkoutTime">00:00</div>
           </v-ons-list-item>
+        <v-ons-list-item modifier="longdivider">
+          <div class="center">
+            break
+          </div>
+          <div class="right">
+            <v-ons-button @click="addTenSecToBreak" class="break-control-btn">+10s </v-ons-button>
+            <v-ons-button @click="onBreakResetBtn" class="break-control-btn">↻ </v-ons-button>
+            <v-ons-button @click="onBreakStopBtn" class="break-control-btn">◾ </v-ons-button>
+          </div>
+
+          </v-ons-list-item>
+        <v-ons-list-item modifier="longdivider" v-if="!firstTimeInteracting">
+          <div class="center">
+            workout
+          </div>
+          <div class="right">
+            <v-ons-button v-if="!totalWorkoutStarted " @click="onWorkoutStartBtn" class="break-control-btn">▶</v-ons-button>
+            <v-ons-button v-if="totalWorkoutStarted" @click="onWorkoutStopBtn" class="break-control-btn">▮▮</v-ons-button>
+            <v-ons-button  @click="onWorkoutResetBtn" class="break-control-btn">↻ </v-ons-button>
+          </div>
+          </v-ons-list-item>
       </v-ons-list>
     </section>
 
@@ -85,6 +106,7 @@ export default {
           breakStarted: false,
           breakEnded: false,
           breakInterval: null,
+          firstTimeInteracting: true,
           workoutStepTimeArray : [{
             timeStampSec: 0,
             stepDurationInSec: 0
@@ -109,13 +131,10 @@ export default {
     },
     methods: {
       onTap () {
-        this.currentStep++
-        if(!this.totalWorkoutStarted) {
+        if(this.firstTimeInteracting) {
           this.workoutStart()
           this.totalWorkoutStarted = !this.totalWorkoutStarted
-        } else {
-          // this.workoutStop()
-          // this.totalWorkoutStarted = !this.totalWorkoutStarted
+          this.firstTimeInteracting = false
         }
       },
       onBreakStart () {
@@ -136,7 +155,6 @@ export default {
         console.log(this.workoutStepTimeArray[this.workoutStepTimeArrayIndex - 1].stepDurationInSec)
       },
       workoutStart () {
-        // this.totalWorkoutInterval = setInterval(this.totalWorkoutTimeAdder,1000)
         this.totalWorkoutInterval = setInterval(this.oneSecInterval,1000)
       },
       workoutStop () {
@@ -179,9 +197,6 @@ export default {
         this.breakTimeDisplayer()
       },
       breakTimeAdder () {
-        console.log('dodaje')
-        console.log(this.breakTimeSeconds);
-        console.log(this.breakTimeMinutes);
           this.breakTimeSeconds++
           if (this.breakTimeSeconds >= 60) {
             this.breakTimeSeconds = 0
@@ -198,6 +213,37 @@ export default {
         const min = Math.floor(input/60)
         const sec = input % 60
         return [min,sec]
+      },
+      addTenSecToBreak () {
+        this.breakTimeSeconds += 10
+      },
+      onWorkoutStartBtn () {
+        this.workoutStart()
+        this.totalWorkoutStarted = true
+      },
+      onWorkoutStopBtn () {
+        console.log('stop btn')
+        console.log(this.totalWorkoutInterval)
+        clearInterval(this.totalWorkoutInterval)
+        console.log(this.totalWorkoutInterval)
+        this.workoutStop()
+        this.totalWorkoutStarted = false
+      },
+      onWorkoutResetBtn () {
+        this.workoutStop()
+        this.totalWorkoutTime = '00:00'
+        this.totalWorkoutSeconds = 0
+        this.totalWorkoutMinutes = 0
+        this.totalWorkoutStarted = false
+      },
+      onBreakStopBtn () {
+        this.breakTimeSeconds = 0
+        this.breakTimeMinutes = 0
+        this.breakStarted = false
+        this.breakEnded = true
+      },
+      onBreakResetBtn () {
+        this.onBreakStart()
       }
     }
 };
@@ -241,5 +287,11 @@ export default {
   font-size: 30px;
   margin-top: 30px;
 
+}
+
+.break-control-btn{
+  background: #004c99;
+  padding: 0px 22px;
+  margin: 0px 2px;
 }
 </style>
