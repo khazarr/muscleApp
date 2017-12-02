@@ -1,8 +1,17 @@
 <template>
   <v-ons-page>
-    <p class="intro">
-      This is a kitchen sink example that shows off the Vue bindings for Onsen UI.<br><br>
-    </p>
+
+    <div class="logo-parent">
+      <img src="../assets/icon.png" class="logo">
+    </div>
+    <div class="center">
+      <div class="header">
+        MuscleApp
+      </div>
+      <div class="subheader">
+        Recommended Routine enchancer
+      </div>
+    </div>
 
     <v-ons-card v-for="page of pages" :key="page.label"
       @click="push(page.component, page.label)"
@@ -14,12 +23,12 @@
 </template>
 
 <script>
-import PullHook from './PullHook.vue';
-import Dialogs from './Dialogs.vue';
-import Buttons from './Buttons.vue';
-import Carousel from './Carousel.vue';
-import InfiniteScroll from './InfiniteScroll.vue';
-import Progress from './Progress.vue';
+// import PullHook from './PullHook.vue';
+// import Dialogs from './Dialogs.vue';
+// import Buttons from './Buttons.vue';
+// import Carousel from './Carousel.vue';
+// import InfiniteScroll from './InfiniteScroll.vue';
+// import Progress from './Progress.vue';
 import WorkoutSettings from './WorkoutSettings.vue';
 
 export default {
@@ -30,36 +39,6 @@ export default {
           component: WorkoutSettings,
           label: 'Settings',
           desc: 'Adjust parameters of workout.'
-        },
-        {
-          component: PullHook,
-          label: 'Pull Hook',
-          desc: 'Simple "pull to refresh" functionality to update data.'
-        },
-        {
-          component: Dialogs,
-          label: 'Dialogs',
-          desc: 'Components and utility methods to display many types of dialogs.'
-        },
-        {
-          component: Buttons,
-          label: 'Buttons',
-          desc: 'Different styles for buttons, floating action buttons and speed dials.'
-        },
-        {
-          component: Carousel,
-          label: 'Carousel',
-          desc: 'Customizable carousel that can be optionally fullscreen.'
-        },
-        {
-          component: InfiniteScroll,
-          label: 'Infinite Scroll',
-          desc: 'Two types of infinite lists: "Load More" and "Lazy Repeat".'
-        },
-        {
-          component: Progress,
-          label: 'Progress',
-          desc: 'Linear progress, circular progress and spinners.'
         }
       ]
     };
@@ -83,7 +62,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .intro {
   text-align: left;
   padding: 0 22px;
@@ -100,5 +79,23 @@ ons-card {
 
 .card__title, .card--material__title {
   font-size: 20px;
+}
+
+.logo {
+  max-width: 200px;
+}
+.logo-parent {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.center{
+  text-align: center;
+}
+.header{
+  font-size: 25px;
+}
+.subheader{
+  margin-bottom: 20px;
 }
 </style>

@@ -16,7 +16,6 @@
       :tabbar-style="swipeTheme"
       :tabs="tabs"
       :index.sync="index"
-      @postchange="showTip($event, 'Tip: Try swiping pages!')"
     ></v-ons-tabbar>
   </v-ons-page>
 </template>
@@ -35,6 +34,10 @@ const red = [244, 67, 54];
 const blue = [30, 136, 229];
 const purple = [103, 58, 183];
 const coolPurple = [14,41,68]
+const LogoBackground = [0,51,102]
+const LogoBackground2 = [25,71,117]
+const LogoBackground3 = [50,91,132]
+
 
 export default {
   data () {
@@ -49,31 +52,19 @@ export default {
           label: 'Home',
           icon: this.md ? null : 'ion-home',
           page: Home,
-          theme: red
+          theme: LogoBackground
         },
         {
           label: 'Workout',
           icon: this.md ? null : 'ion-home',
           page: Workout,
-          theme: red
+          theme: LogoBackground
         },
         {
           label: 'Timer',
           icon: this.md ? null : 'ion-ios-stopwatch-outline',
           page: Timer,
-          theme: coolPurple
-        },
-        {
-          label: 'Forms',
-          icon: this.md ? null : 'ion-edit',
-          page: Forms,
-          theme: blue
-        },
-        {
-          label: 'Anim',
-          icon: this.md ? null : 'ion-film-marker',
-          page: Animations,
-          theme: purple
+          theme: LogoBackground
         }
       ]
     };

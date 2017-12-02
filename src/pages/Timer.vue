@@ -4,25 +4,63 @@
 <v-ons-page @click="onTap">
     <section class="margin16">
 
-            <v-ons-col>Current Excercise</v-ons-col>
+
+        <!-- STILL TO DO
+        <v-ons-col>Current Excercise</v-ons-col>
         </v-ons-row>
         <v-ons-row>
             <v-ons-col>{{workoutSteps[currentStep]}}</v-ons-col>
         </v-ons-row>
-
         <v-ons-row>
             <v-ons-col>Tap to start</v-ons-col>
-        </v-ons-row>
-
+        </v-ons-row> -->
+<!--
         <v-ons-progress-bar :value="20"></v-ons-progress-bar>
-        <v-ons-row>
-            <v-ons-col>Total workout time <span v-html="totalWorkoutTime">00:00</span></v-ons-col>
-        </v-ons-row>
-        <v-ons-button modifier="large" class="button-margin" @click="onNextWorkoutStep">Next workout step</v-ons-button>
-        <v-ons-button v-if="!breakStarted" modifier="large" class="button-margin" @click="onBreakStart">Break time!</v-ons-button>
-        <v-ons-row>
-            <v-ons-col><span v-if="breakStarted" v-html="breakTimeDisplay">00:00</span></v-ons-col>
-        </v-ons-row>
+        <v-ons-button modifier="large" class="button-margin" @click="onNextWorkoutStep">Next workout step</v-ons-button> -->
+
+        <div class="tap-to-start" v-if="!totalWorkoutStarted">
+          Tap to start workout
+        </div>
+
+
+        <v-ons-button v-if="!breakStarted && totalWorkoutStarted" modifier="large" class="button-margin break-btn" @click="onBreakStart">Break time!</v-ons-button>
+
+
+        <div v-if="breakEnded">
+          <v-ons-list-header class="keep-going">Keep it!</v-ons-list-header>
+        </div>
+
+        <div v-if="breakStarted">
+          <v-ons-list-header class="keep-going">Wait for it</v-ons-list-header>
+        </div>
+
+
+        <div class="break-display" v-if="breakStarted || breakEnded">
+          <div v-if="breakTimeMinutes > 0">
+            <span v-if="breakTimeMinutes < 10">0</span><span v-html="breakTimeMinutes"></span>
+          </div>
+          <div>
+            <span v-if="breakTimeSeconds < 10">0</span><span v-html="breakTimeSeconds"></span>
+          </div>
+        </div>
+
+
+            <v-ons-col><span class="break-counter" v-if="false" v-html="breakTimeDisplay">00:00</span></v-ons-col>
+
+
+
+
+
+    </section>
+    <section class="margin16">
+      <v-ons-list modifier="inset">
+        <v-ons-list-item modifier="longdivider">
+          <div class="center">
+            Total workout time
+          </div>
+            <div class="right" v-html="totalWorkoutTime">00:00</div>
+          </v-ons-list-item>
+      </v-ons-list>
     </section>
 
 
@@ -41,10 +79,11 @@ export default {
           totalWorkoutMinutes: 0,
           totalWorkoutInterval: null,
           totalWorkoutStarted: false,
-          breakTimeSeconds: 5,
+          breakTimeSeconds: 11,
           breakTimeMinutes: 0,
           breakTimeDisplay: '01:00',
           breakStarted: false,
+          breakEnded: false,
           breakInterval: null,
           workoutStepTimeArray : [{
             timeStampSec: 0,
@@ -57,6 +96,17 @@ export default {
           ],
         }
     },
+    computed: {
+      userBreakTime () {
+        return this.$store.getters.getUserBreakTime
+      }
+    },
+    mounted () {
+      let min,sec
+      [min,sec] = this.secondsToMinAndSeconds(this.userBreakTime)
+      this.breakTimeSeconds = sec
+      this.breakTimeMinutes = min
+    },
     methods: {
       onTap () {
         this.currentStep++
@@ -67,10 +117,14 @@ export default {
           // this.workoutStop()
           // this.totalWorkoutStarted = !this.totalWorkoutStarted
         }
-
       },
       onBreakStart () {
+        let min,sec
+        [min,sec] = this.secondsToMinAndSeconds(this.userBreakTime)
+        this.breakTimeSeconds = sec
+        this.breakTimeMinutes = min
         this.breakStarted = true
+        this.breakEnded = false
       },
       onNextWorkoutStep () {
         this.workoutStepTimeArray[this.workoutStepTimeArrayIndex] = {
@@ -104,20 +158,35 @@ export default {
         if(this.breakStarted) {
           this.breakTimeSubstractor()
         }
+
+        if(this.breakEnded) {
+          this.breakTimeAdder()
+        }
+
       },
       breakTimeSubstractor () {
         this.breakTimeSeconds--
         if (this.breakTimeSeconds === 0 && this.breakTimeMinutes === 0) {
           console.log('break over!')
-          this.breakTimeSeconds = 5
-          this.breakTimeMinutes = 0
+
           this.breakStarted = false
+          this.breakEnded = true
         }
         if (this.breakTimeSeconds <= 0) {
           this.breakTimeSeconds = 60
           this.breakTimeMinutes--
         }
         this.breakTimeDisplayer()
+      },
+      breakTimeAdder () {
+        console.log('dodaje')
+        console.log(this.breakTimeSeconds);
+        console.log(this.breakTimeMinutes);
+          this.breakTimeSeconds++
+          if (this.breakTimeSeconds >= 60) {
+            this.breakTimeSeconds = 0
+            this.breakTimeMinutes++
+          }
       },
       totalWorkoutTimeDisplay () {
         this.totalWorkoutTime =  (this.totalWorkoutMinutes < 10 ? '0' : '') + this.totalWorkoutMinutes + ':' + (this.totalWorkoutSeconds < 10 ? '0' : '') + this.totalWorkoutSeconds
@@ -143,5 +212,34 @@ export default {
 }
 .margin16 {
   padding: 16px;
+}
+
+.break-btn {
+  background: #003366;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+
+.break-display {
+  text-align: center;
+  font-size: 245px;
+  line-height: 0.8;
+}
+
+.keep-going{
+  font-size: 29px;
+  font-weight: 800;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.tap-to-start{
+  text-align: center;
+  font-size: 30px;
+  margin-top: 30px;
+
 }
 </style>

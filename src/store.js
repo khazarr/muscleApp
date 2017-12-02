@@ -50,7 +50,7 @@ export default {
       strict: true,
       namespaced: true,
       state: {
-        index: 1
+        index: 0
       },
       mutations: {
         set(state, index) {
@@ -61,6 +61,24 @@ export default {
 
     workout: {
       state: {
+        userBreakTime: 90,
+        breakTimes: [
+          3,
+          6,
+          60,
+          65,
+          70,
+          75,
+          80,
+          85,
+          90,
+          95,
+          100,
+          105,
+          110,
+          115,
+          120
+        ],
         description: {
           streches: 'DYNAMIC STRETCHES - TO GET THE JOINTS NICE AND LOOSE',
           bodyDrills: 'BODYLINE DRILLS - TO FIRE UP YOUR CORE AND REINFORCE PROPER POSITIONS.',
@@ -171,6 +189,11 @@ export default {
           }
         ]
       },
+      mutations: {
+        setUserBreakTime(state, payload) {
+          state.userBreakTime = payload
+        }
+      },
       getters: {
         getStretches (state) {
           return state.streches
@@ -186,6 +209,12 @@ export default {
         },
         getWorkoutDescriptions (state) {
           return state.description
+        },
+        getBreakTimes (state) {
+          return state.breakTimes
+        },
+        getUserBreakTime (state) {
+          return state.userBreakTime
         }
       }
     }

@@ -1,7 +1,9 @@
 <template>
   <v-ons-page modifier="white">
     <div class="profile-pic">
+      <v-ons-list-title>Made with </v-ons-list-title>
       <img src="../assets/vue-onsenui.png">
+
     </div>
 
     <v-ons-list-title>Access</v-ons-list-title>
@@ -22,7 +24,7 @@
       </v-ons-list-item>
     </v-ons-list>
 
-    <v-ons-list-title>Links</v-ons-list-title>
+    <!-- <v-ons-list-title>Links</v-ons-list-title>
     <v-ons-list>
       <v-ons-list-item v-for="item in links" :key="item.title"
         :modifier="md && 'nodivider'"
@@ -38,7 +40,7 @@
           <v-ons-icon icon="fa-external-link"></v-ons-icon>
         </div>
       </v-ons-list-item>
-    </v-ons-list>
+    </v-ons-list> -->
   </v-ons-page>
 </template>
 
@@ -88,16 +90,12 @@ export default {
           icon: 'ion-home, material:md-home'
         },
         {
+          title: 'Workout',
+          icon: 'ion-ios-play'
+        },
+        {
           title: 'Timer',
           icon: 'ion-ios-stopwatch-outline, material:md-alarm'
-        },
-        {
-          title: 'Forms',
-          icon: 'ion-edit, material:md-edit'
-        },
-        {
-          title: 'Animations',
-          icon: 'ion-film-marker, material: md-movie-alt'
         }
       ]
     };
